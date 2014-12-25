@@ -205,13 +205,13 @@ class oradb_cdb {
       user                     => hiera('oracle_os_user'),
       group                    => 'dba',
       source_db                => hiera('oracle_database_name'),
-      pdb_name                 => 'pdb1',
+      pdb_name                 => 'pdb2',
       pdb_admin_username       => 'pdb_adm',
       pdb_admin_password       => 'Welcome01',
       pdb_datafile_destination => "${oracle_database_file_dest}/${oracle_database_name}/pdb2",
       create_user_tablespace   => true,
       log_output               => true,
-      require                  => Oradb::Satabase_pluggable['pdb1'],
+      require                  => Oradb::Database_pluggable['pdb1'],
     }
 
 

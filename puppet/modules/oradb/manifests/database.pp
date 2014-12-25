@@ -1,3 +1,5 @@
+# == Class: oradb::database
+#
 #
 # action        =  createDatabase|deleteDatabase
 # databaseType  = MULTIPURPOSE|DATA_WAREHOUSING|OLTP

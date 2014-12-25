@@ -15,7 +15,7 @@ define oradb::database_pluggable(
   $log_output               = false,
 ){
 
-  if (!( $version in ['12.1'])){
+  if (!( $version == '12.1')){
     fail('Unrecognized version, use 12.1')
   }
 
