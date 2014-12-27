@@ -1,6 +1,7 @@
 node 'dbcdb.example.com' {
   include oradb_os
   include oradb_cdb
+  # include oradb_gg
 }
 
 Package{allow_virtual => false,}
@@ -229,3 +230,58 @@ class oradb_cdb {
 
 }
 
+class oradb_gg {
+  require oradb_cdb
+
+    oradb::goldengate{ 'ggate12.1.2':
+      version                 => '12.1.2',
+      file                    => '121210_fbo_ggs_Linux_x64_shiphome.zip',
+      databaseType            => 'Oracle',
+      databaseVersion         => 'ORA11g',
+      databaseHome            => hiera('oracle_home_dir'),
+      oracleBase              => hiera('oracle_base_dir'),
+      goldengateHome          => '/oracle/product/12.1/ggate',
+      managerPort             => 16000,
+      user                    => hiera('oracle_os_user'),
+      group                   => 'dba',
+      group_install           => 'oinstall',
+      downloadDir             => hiera('oracle_download_dir'),
+      puppetDownloadMntPoint  => hiera('oracle_source'),
+    }
+
+    file { "/oracle/product/11.2.1" :
+      ensure        => directory,
+      recurse       => false,
+      replace       => false,
+      mode          => '0775',
+      owner         => hiera('oracle_os_user'),
+      group         => 'dba',
+      require       => Oradb::Goldengate['ggate12.1.2'],
+    }
+
+    oradb::goldengate{ 'ggate11.2.1':
+      version                 => '11.2.1',
+      file                    => 'ogg112101_fbo_ggs_Linux_x64_ora11g_64bit.zip',
+      tarFile                 => 'fbo_ggs_Linux_x64_ora11g_64bit.tar',
+      goldengateHome          => "/oracle/product/11.2.1/ggate",
+      user                    => hiera('oracle_os_user'),
+      group                   => 'dba',
+      downloadDir             => hiera('oracle_download_dir'),
+      puppetDownloadMntPoint  => hiera('oracle_source'),
+      require                 => File["/oracle/product/11.2.1"],
+    }
+
+    oradb::goldengate{ 'ggate11.2.1_java':
+      version                 => '11.2.1',
+      file                    => 'V38714-01.zip',
+      tarFile                 => 'ggs_Adapters_Linux_x64.tar',
+      goldengateHome          => "/oracle/product/11.2.1/ggate_java",
+      user                    => hiera('oracle_os_user'),
+      group                   => 'dba',
+      group_install           => 'oinstall',
+      downloadDir             => hiera('oracle_download_dir'),
+      puppetDownloadMntPoint  => hiera('oracle_source'),
+      require                 => File["/oracle/product/11.2.1"],
+    }
+
+}
