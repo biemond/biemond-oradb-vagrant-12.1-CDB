@@ -106,7 +106,6 @@ class oradb_cdb {
       oracleBase             => hiera('oracle_base_dir'),
       oracleHome             => hiera('oracle_home_dir'),
       userBaseDir            => '/home',
-      createUser             => false,
       user                   => hiera('oracle_os_user'),
       group                  => 'dba',
       group_install          => 'oinstall',

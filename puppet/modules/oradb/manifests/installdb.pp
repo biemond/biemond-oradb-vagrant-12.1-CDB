@@ -15,7 +15,7 @@ define oradb::installdb(
   $oracleHome              = undef,
   $eeOptionsSelection      = false,
   $eeOptionalComponents    = undef, # 'oracle.rdbms.partitioning:11.2.0.4.0,oracle.oraolap:11.2.0.4.0,oracle.rdbms.dm:11.2.0.4.0,oracle.rdbms.dv:11.2.0.4.0,oracle.rdbms.lbac:11.2.0.4.0,oracle.rdbms.rat:11.2.0.4.0'
-  $createUser              = true,
+  $createUser              = undef,
   $bashProfile             = true,
   $user                    = 'oracle',
   $userBaseDir             = '/home',
@@ -29,7 +29,6 @@ define oradb::installdb(
   $cluster_nodes           = undef,
 )
 {
-
   if ( $createUser == true ){
     fail("createUser parameter on installdb ${title} is removed from this oradb module, you need to create the oracle user and its groups yourself")
   }

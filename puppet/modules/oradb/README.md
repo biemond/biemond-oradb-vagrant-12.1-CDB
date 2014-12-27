@@ -1,5 +1,5 @@
 # Oracle Database puppet module
-[![Build Status](https://travis-ci.org/biemond/biemond-oradb.png)](https://travis-ci.org/biemond/biemond-oradb)
+[![Build Status](https://travis-ci.org/biemond/biemond-oradb.png)](https://travis-ci.org/biemond/biemond-oradb) [![Coverage Status](https://coveralls.io/repos/biemond/biemond-oradb/badge.png?branch=master)](https://coveralls.io/r/biemond/biemond-oradb?branch=master)
 
 created by Edwin Biemond
 [biemond.blogspot.com](http://biemond.blogspot.com)
@@ -200,7 +200,6 @@ install the following module to set the database user limits parameters
       databaseType           => 'SE',
       oracleBase             => '/oracle',
       oracleHome             => '/oracle/product/12.1/db',
-      createUser             => false,
       bashProfile            => true,
       user                   => 'oracle',
       group                  => 'dba',
@@ -224,7 +223,6 @@ or with zipExtract ( does not download or extract , software is in /install/linu
       group                  => 'dba',
       group_install          => 'oinstall',
       group_oper             => 'oper',
-      createUser             => false,
       downloadDir            => '/install',
       zipExtract             => false,
     }
@@ -239,7 +237,6 @@ or
       oracleHome             => '/oracle/product/11.2/db',
       eeOptionsSelection     => true,
       eeOptionalComponents   => 'oracle.rdbms.partitioning:11.2.0.4.0,oracle.oraolap:11.2.0.4.0,oracle.rdbms.dm:11.2.0.4.0,oracle.rdbms.dv:11.2.0.4.0,oracle.rdbms.lbac:11.2.0.4.0,oracle.rdbms.rat:11.2.0.4.0',
-      createUser             => false,
       user                   => 'oracle',
       group                  => 'dba',
       group_install          => 'oinstall',
@@ -257,7 +254,6 @@ or
       databaseType           => 'SE',
       oracleBase             => '/oracle',
       oracleHome             => '/oracle/product/11.2/db',
-      createUser             => false,
       user                   => 'oracle',
       group                  => 'dba',
       group_install          => 'oinstall',
@@ -275,7 +271,6 @@ or
       databaseType  => 'SE',
       oracleBase    => '/oracle',
       oracleHome    => '/oracle/product/11.2/db',
-      createUser    => false,
       user          => 'oracle',
       group         => 'dba',
       group_install => 'oinstall',
@@ -823,7 +818,6 @@ Tnsnames.ora
         oracleBase             => hiera('oracle_base_dir'),
         oracleHome             => hiera('oracle_home_dir'),
         userBaseDir            => '/home',
-        createUser             => false,
         user                   => hiera('oracle_os_user'),
         group                  => 'dba',
         group_install          => 'oinstall',
@@ -945,7 +939,6 @@ Tnsnames.ora
       file                   => 'linuxamd64_12c_client.zip',
       oracleBase             => '/oracle',
       oracleHome             => '/oracle/product/12.1/client',
-      createUser             => false,
       user                   => 'oracle',
       group                  => 'dba',
       group_install          => 'oinstall',
@@ -962,7 +955,6 @@ or
       file                   => 'linux.x64_11gR2_client.zip',
       oracleBase             => '/oracle',
       oracleHome             => '/oracle/product/11.2/client',
-      createUser             => false,
       user                   => 'oracle',
       group                  => 'dba',
       group_install          => 'oinstall',
