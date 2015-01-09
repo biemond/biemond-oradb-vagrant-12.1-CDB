@@ -126,13 +126,11 @@ class oradb_cdb {
       require      => Oradb::Installdb['db_linux-x64'],
     }
 
-    oradb::listener{'start listener':
-      oracleBase   => hiera('oracle_base_dir'),
-      oracleHome   => hiera('oracle_home_dir'),
-      user         => hiera('oracle_os_user'),
-      group        => 'dba',
-      action       => 'start',
-      require      => Oradb::Net['config net8'],
+    db_listener{ 'startlistener':
+      ensure          => 'running',  # running|start|abort|stop
+      oracle_base_dir => hiera('oracle_base_dir'),
+      oracle_home_dir => hiera('oracle_home_dir'),
+      os_user         => hiera('oracle_os_user'),
     }
 
     oradb::database{ 'oraDb':
@@ -160,7 +158,7 @@ class oradb_cdb {
                                   'processes'           => '600',
                                   'job_queue_processes' => '4' },
       containerDatabase       => true,
-      require                 => Oradb::Listener['start listener'],
+      require                 => Db_listener['startlistener'],
     }
 
     oradb::dbactions{ 'start oraDb':
