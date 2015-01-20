@@ -1,7 +1,7 @@
 node 'dbcdb.example.com' {
   include oradb_os
   include oradb_cdb
-  # include oradb_gg
+ # include oradb_gg
 }
 
 Package{allow_virtual => false,}
@@ -99,6 +99,7 @@ class oradb_os {
 class oradb_cdb {
   require oradb_os
 
+
     oradb::installdb{ 'db_linux-x64':
       version                => hiera('db_version'),
       file                   => hiera('db_file'),
@@ -147,7 +148,7 @@ class oradb_cdb {
       systemPassword          => hiera('oracle_database_system_password'),
       characterSet            => 'AL32UTF8',
       nationalCharacterSet    => 'UTF8',
-      sampleSchema            => 'FALSE',
+      sampleSchema            => 'TRUE',
       memoryPercentage        => '40',
       memoryTotal             => '800',
       databaseType            => 'MULTIPURPOSE',
@@ -211,20 +212,6 @@ class oradb_cdb {
       log_output               => true,
       require                  => Oradb::Database_pluggable['pdb1'],
     }
-
-
-    # oradb::database_pluggable{'pdb1':
-    #   ensure                   => 'absent',
-    #   version                  => '12.1',
-    #   oracle_home_dir          => hiera('oracle_home_dir'),
-    #   user                     => hiera('oracle_os_user'),
-    #   group                    => 'dba',
-    #   source_db                => hiera('oracle_database_name'),
-    #   pdb_name                 => 'pdb1',
-    #   pdb_datafile_destination => "${oracle_database_file_dest}/${oracle_database_name}/pdb1",
-    #   log_output               => true,
-    #   require                  => Oradb::Autostartdatabase['autostart oracle'],
-    # }
 
 }
 
