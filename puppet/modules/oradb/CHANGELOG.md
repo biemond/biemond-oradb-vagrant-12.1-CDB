@@ -1,7 +1,14 @@
 # Version updates
 
+## 1.0.31
+- installasm, stand alone parameter in combination with $gridType == 'CRS_SWONLY' used as standalone or in RAC
+- installasm, .profile fix for ORACLE_SID in case gridType = HA_CONFIG -> +ASM or in gridType = CRS_CONFIG -> +ASM1
+
+## 1.0.30
+- Removed Oracle Home under base check for ASM installations, in CRS_CONFIG or CRS_SWONLY this is not right
+
 ## 1.0.29
-- Custom type for db/asm/client oracle directory structure instead of dirtree and manifest
+- Custom type for oracle db/asm/client/em directory structure instead of using dirtree and some oradb manifests
 
 ## 1.0.28
 - fixed database install rsp 12.1.0.2
