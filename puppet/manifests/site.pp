@@ -99,7 +99,6 @@ class oradb_os {
 class oradb_cdb {
   require oradb_os
 
-
     oradb::installdb{ 'db_linux-x64':
       version                => hiera('db_version'),
       file                   => hiera('db_file'),
@@ -132,6 +131,7 @@ class oradb_cdb {
       oracle_base_dir => hiera('oracle_base_dir'),
       oracle_home_dir => hiera('oracle_home_dir'),
       os_user         => hiera('oracle_os_user'),
+      require         => Oradb::Net['config net8'],
     }
 
     oradb::database{ 'oraDb':
