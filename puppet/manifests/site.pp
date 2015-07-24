@@ -100,29 +100,29 @@ class oradb_cdb {
   require oradb_os
 
     oradb::installdb{ 'db_linux-x64':
-      version                => hiera('db_version'),
-      file                   => hiera('db_file'),
-      databaseType           => 'EE',
-      oraInventoryDir        => hiera('oraInventory_dir'),
-      oracleBase             => hiera('oracle_base_dir'),
-      oracleHome             => hiera('oracle_home_dir'),
-      userBaseDir            => '/home',
-      user                   => hiera('oracle_os_user'),
-      group                  => 'dba',
-      group_install          => 'oinstall',
-      group_oper             => 'oper',
-      downloadDir            => hiera('oracle_download_dir'),
-      remoteFile             => false,
-      puppetDownloadMntPoint => hiera('oracle_source'),
+      version                   => hiera('db_version'),
+      file                      => hiera('db_file'),
+      database_type             => 'EE',
+      ora_inventory_dir         => hiera('oraInventory_dir'),
+      oracle_base               => hiera('oracle_base_dir'),
+      oracle_home               => hiera('oracle_home_dir'),
+      user_base_dir             => '/home',
+      user                      => hiera('oracle_os_user'),
+      group                     => 'dba',
+      group_install             => 'oinstall',
+      group_oper                => 'oper',
+      download_dir              => hiera('oracle_download_dir'),
+      remote_file               => false,
+      puppet_download_mnt_point => hiera('oracle_source'),
     }
 
     oradb::net{ 'config net8':
-      oracleHome   => hiera('oracle_home_dir'),
+      oracle_home  => hiera('oracle_home_dir'),
       version      => hiera('dbinstance_version'),
       user         => hiera('oracle_os_user'),
       group        => 'dba',
-      downloadDir  => hiera('oracle_download_dir'),
-      dbPort       => '1521', #optional
+      download_dir => hiera('oracle_download_dir'),
+      db_port      => '1521', #optional
       require      => Oradb::Installdb['db_linux-x64'],
     }
 
@@ -135,46 +135,46 @@ class oradb_cdb {
     }
 
     oradb::database{ 'oraDb':
-      oracleBase              => hiera('oracle_base_dir'),
-      oracleHome              => hiera('oracle_home_dir'),
-      version                 => hiera('dbinstance_version'),
-      user                    => hiera('oracle_os_user'),
-      group                   => hiera('oracle_os_group'),
-      downloadDir             => hiera('oracle_download_dir'),
-      action                  => 'create',
-      dbName                  => hiera('oracle_database_name'),
-      dbDomain                => hiera('oracle_database_domain_name'),
-      sysPassword             => hiera('oracle_database_sys_password'),
-      systemPassword          => hiera('oracle_database_system_password'),
-      characterSet            => 'AL32UTF8',
-      nationalCharacterSet    => 'UTF8',
-      sampleSchema            => 'TRUE',
-      memoryPercentage        => '40',
-      memoryTotal             => '800',
-      databaseType            => 'MULTIPURPOSE',
-      emConfiguration         => 'NONE',
-      dataFileDestination     => hiera('oracle_database_file_dest'),
-      recoveryAreaDestination => hiera('oracle_database_recovery_dest'),
-      initParams              => {'open_cursors'        => '1000',
-                                  'processes'           => '600',
-                                  'job_queue_processes' => '4' },
-      containerDatabase       => true,
-      require                 => Db_listener['startlistener'],
+      oracle_base               => hiera('oracle_base_dir'),
+      oracle_home               => hiera('oracle_home_dir'),
+      version                   => hiera('dbinstance_version'),
+      user                      => hiera('oracle_os_user'),
+      group                     => hiera('oracle_os_group'),
+      download_dir              => hiera('oracle_download_dir'),
+      action                    => 'create',
+      db_name                   => hiera('oracle_database_name'),
+      db_domain                 => hiera('oracle_database_domain_name'),
+      sys_password              => hiera('oracle_database_sys_password'),
+      system_password           => hiera('oracle_database_system_password'),
+      character_set             => 'AL32UTF8',
+      nationalcharacter_set     => 'UTF8',
+      sample_schema             => 'TRUE',
+      memory_percentage         => '40',
+      memory_total              => '800',
+      database_type             => 'MULTIPURPOSE',
+      em_configuration          => 'NONE',
+      data_file_destination     => hiera('oracle_database_file_dest'),
+      recovery_area_destination => hiera('oracle_database_recovery_dest'),
+      init_params               => {'open_cursors'        => '1000',
+                                    'processes'           => '600',
+                                    'job_queue_processes' => '4' },
+      container_database        =>  true,
+      require                   => Db_listener['startlistener'],
     }
 
     oradb::dbactions{ 'start oraDb':
-      oracleHome              => hiera('oracle_home_dir'),
+      oracle_home             => hiera('oracle_home_dir'),
       user                    => hiera('oracle_os_user'),
       group                   => hiera('oracle_os_group'),
       action                  => 'start',
-      dbName                  => hiera('oracle_database_name'),
+      db_name                 => hiera('oracle_database_name'),
       require                 => Oradb::Database['oraDb'],
     }
 
     oradb::autostartdatabase{ 'autostart oracle':
-      oracleHome              => hiera('oracle_home_dir'),
+      oracle_home             => hiera('oracle_home_dir'),
       user                    => hiera('oracle_os_user'),
-      dbName                  => hiera('oracle_database_name'),
+      db_name                 => hiera('oracle_database_name'),
       require                 => Oradb::Dbactions['start oraDb'],
     }
 
@@ -219,19 +219,19 @@ class oradb_gg {
   require oradb_cdb
 
     oradb::goldengate{ 'ggate12.1.2':
-      version                 => '12.1.2',
-      file                    => '121210_fbo_ggs_Linux_x64_shiphome.zip',
-      databaseType            => 'Oracle',
-      databaseVersion         => 'ORA11g',
-      databaseHome            => hiera('oracle_home_dir'),
-      oracleBase              => hiera('oracle_base_dir'),
-      goldengateHome          => '/oracle/product/12.1/ggate',
-      managerPort             => 16000,
-      user                    => hiera('oracle_os_user'),
-      group                   => 'dba',
-      group_install           => 'oinstall',
-      downloadDir             => hiera('oracle_download_dir'),
-      puppetDownloadMntPoint  => hiera('oracle_source'),
+      version                    => '12.1.2',
+      file                       => '121210_fbo_ggs_Linux_x64_shiphome.zip',
+      database_type              => 'Oracle',
+      database_version           => 'ORA11g',
+      database_home              => hiera('oracle_home_dir'),
+      oracle_base                => hiera('oracle_base_dir'),
+      goldengate_home            => '/oracle/product/12.1/ggate',
+      manager_port               => 16000,
+      user                       => hiera('oracle_os_user'),
+      group                      => 'dba',
+      group_install              => 'oinstall',
+      download_dir               => hiera('oracle_download_dir'),
+      puppet_download_mnt_point  => hiera('oracle_source'),
     }
 
     file { "/oracle/product/11.2.1" :
@@ -245,28 +245,28 @@ class oradb_gg {
     }
 
     oradb::goldengate{ 'ggate11.2.1':
-      version                 => '11.2.1',
-      file                    => 'ogg112101_fbo_ggs_Linux_x64_ora11g_64bit.zip',
-      tarFile                 => 'fbo_ggs_Linux_x64_ora11g_64bit.tar',
-      goldengateHome          => "/oracle/product/11.2.1/ggate",
-      user                    => hiera('oracle_os_user'),
-      group                   => 'dba',
-      downloadDir             => hiera('oracle_download_dir'),
-      puppetDownloadMntPoint  => hiera('oracle_source'),
-      require                 => File["/oracle/product/11.2.1"],
+      version                    => '11.2.1',
+      file                       => 'ogg112101_fbo_ggs_Linux_x64_ora11g_64bit.zip',
+      tar_file                   => 'fbo_ggs_Linux_x64_ora11g_64bit.tar',
+      goldengate_home            => "/oracle/product/11.2.1/ggate",
+      user                       => hiera('oracle_os_user'),
+      group                      => 'dba',
+      download_dir               => hiera('oracle_download_dir'),
+      puppet_download_mnt_point  => hiera('oracle_source'),
+      require                    => File["/oracle/product/11.2.1"],
     }
 
     oradb::goldengate{ 'ggate11.2.1_java':
-      version                 => '11.2.1',
-      file                    => 'V38714-01.zip',
-      tarFile                 => 'ggs_Adapters_Linux_x64.tar',
-      goldengateHome          => "/oracle/product/11.2.1/ggate_java",
-      user                    => hiera('oracle_os_user'),
-      group                   => 'dba',
-      group_install           => 'oinstall',
-      downloadDir             => hiera('oracle_download_dir'),
-      puppetDownloadMntPoint  => hiera('oracle_source'),
-      require                 => File["/oracle/product/11.2.1"],
+      version                    => '11.2.1',
+      file                       => 'V38714-01.zip',
+      tar_file                   => 'ggs_Adapters_Linux_x64.tar',
+      goldengate_home            => "/oracle/product/11.2.1/ggate_java",
+      user                       => hiera('oracle_os_user'),
+      group                      => 'dba',
+      group_install              => 'oinstall',
+      download_dir               => hiera('oracle_download_dir'),
+      puppet_download_mnt_point  => hiera('oracle_source'),
+      require                    => File["/oracle/product/11.2.1"],
     }
 
 }
