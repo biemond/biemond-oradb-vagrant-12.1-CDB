@@ -23,7 +23,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     dbcdb.vm.provider :vmware_fusion do |vb|
       vb.vmx["numvcpus"] = "2"
-      vb.vmx["memsize"] = "3548"
+      vb.vmx["memsize"] = "4092"
     end
 
     dbcdb.vm.provider :virtualbox do |vb|
