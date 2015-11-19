@@ -146,11 +146,12 @@ class oradb_cdb {
       db_domain                 => hiera('oracle_database_domain_name'),
       sys_password              => hiera('oracle_database_sys_password'),
       system_password           => hiera('oracle_database_system_password'),
+      template                  => 'dbtemplate_12.1',
       character_set             => 'AL32UTF8',
       nationalcharacter_set     => 'UTF8',
       sample_schema             => 'TRUE',
       memory_percentage         => '40',
-      memory_total              => '800',
+      memory_total              => '1200',
       database_type             => 'MULTIPURPOSE',
       em_configuration          => 'NONE',
       data_file_destination     => hiera('oracle_database_file_dest'),
@@ -158,7 +159,7 @@ class oradb_cdb {
       init_params               => {'open_cursors'        => '1000',
                                     'processes'           => '600',
                                     'job_queue_processes' => '4' },
-      container_database        =>  true,
+      container_database        => true,
       require                   => Db_listener['startlistener'],
     }
 
