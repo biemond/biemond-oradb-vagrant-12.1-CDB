@@ -9,10 +9,10 @@ Package{allow_virtual => false,}
 # operating settings for Database & Middleware
 class oradb_os {
 
-  class { 'swap_file':
-    swapfile     => '/var/swap.1',
-    swapfilesize => '8192000000'
-  }
+  # class { 'swap_file':
+  #   swapfile     => '/var/swap.1',
+  #   swapfilesize => '8192000000'
+  # }
 
   # set the tmpfs
   mount { '/dev/shm':

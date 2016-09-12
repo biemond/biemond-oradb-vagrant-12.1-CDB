@@ -1,15 +1,40 @@
 # Version updates
 
+## 2.0.7
+- In case of a template, set character parameter for the default database build command. It is being set to AL32UTF8.
+- installasm new 12.1.0.2 storage_option values 'LOCAL_ASM_STORAGE', 'FLEX_ASM_STORAGE', 'CLIENT_ASM_STORAGE', 'FILE_SYSTEM_STORAGE'
+- installasm bash_profile parameter
+- installasm remote_node parameter, ability to execute orainstRoot.sh and root.sh on remode node
+- installdb new 12.1.0.2 database_type values 'EE','SE2'
+- installdb, handling 2 installations of the same oracle database version on the same host
+- installdb, remote_node parameter, ability to execute root.sh on remode node
+- installem_agent option to not manage curl
+- db_control startup in mount status for standby databases
+- database.pp use cluster_nodes for -nodelist parameter
+
+
+## 2.0.6
+- Seeded database template support
+- oracle_hostname parameter for emagent
+- puppet 4 fixes
+
+## 2.0.5
+- EM agent, Move sysman parameter validation to agentpull block
+- Fix rcu status check, rollback from version 2.0.1
+- ASM service fix for RHEL7
+
 ## 2.0.4
+- dbtemplate_12.1.dbt database template should also work for 12.1.0.2
+- db_structure fixes, correct permissions and chown order
+- support for Enterprise Manager 12.1.0.5
+
+## 2.0.3
 - some more strict file permissions
 - rcu allows now more complex passwords
 - allow to change the service name instead of dbora
 - installdb is_rack_one_install option for 12.1.0.2
 - db_control type & dbcontrol manifest supports now also Grid
-
-## 2.0.3
 - security/permissions fixes with files which can contain passwords
-- RCU now uses system call instead of backticks which allows more complex passwords
 
 ## 2.0.2
 - support the new opatchauto utility instead of opatch auto by use_opatchauto_utility => true
