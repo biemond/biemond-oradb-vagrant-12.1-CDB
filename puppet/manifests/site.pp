@@ -116,6 +116,36 @@ class oradb_cdb {
       puppet_download_mnt_point => hiera('oracle_source'),
     }
 
+    oradb::opatchupgrade{'121000_opatch_upgrade_db':
+      oracle_home               => hiera('oracle_home_dir'),
+      patch_file                => 'p6880880_121010_Linux-x86-64.zip',
+      csi_number                => undef,
+      support_id                => undef,
+      opversion                 => '12.1.0.1.9',
+      user                      => hiera('oracle_os_user'),
+      group                     => hiera('oracle_os_group'),
+      download_dir              => hiera('oracle_download_dir'),
+      puppet_download_mnt_point => hiera('oracle_source'),
+      require                   => Oradb::Installdb['db_linux-x64'],
+    }
+
+    oradb::opatch{'21523260_db_patch':
+      ensure                    => 'present',
+      oracle_product_home       => hiera('oracle_home_dir'),
+      patch_id                  => '21523260',
+      patch_file                => 'p21523260_121020_Linux-x86-64.zip',
+      clusterware               => false,
+      use_opatchauto_utility    => true,
+      bundle_sub_patch_id       => '21359755',
+      bundle_sub_folder         => '21359755',
+      user                      => hiera('oracle_os_user'),
+      group                     => 'oinstall',
+      download_dir              => hiera('oracle_download_dir'),
+      ocmrf                     => true,
+      puppet_download_mnt_point => hiera('oracle_source'),
+      require                   => Oradb::Opatchupgrade['121000_opatch_upgrade_db'],
+    }
+
     oradb::net{ 'config net8':
       oracle_home  => hiera('oracle_home_dir'),
       version      => hiera('dbinstance_version'),
@@ -123,7 +153,7 @@ class oradb_cdb {
       group        => 'dba',
       download_dir => hiera('oracle_download_dir'),
       db_port      => '1521', #optional
-      require      => Oradb::Installdb['db_linux-x64'],
+      require      => Oradb::Opatch['21523260_db_patch'],
     }
 
     db_listener{ 'startlistener':
@@ -146,7 +176,7 @@ class oradb_cdb {
       db_domain                 => hiera('oracle_database_domain_name'),
       sys_password              => hiera('oracle_database_sys_password'),
       system_password           => hiera('oracle_database_system_password'),
-      template                  => 'dbtemplate_12.1',
+      # template                  => 'dbtemplate_12.1',
       character_set             => 'AL32UTF8',
       nationalcharacter_set     => 'UTF8',
       sample_schema             => 'TRUE',
