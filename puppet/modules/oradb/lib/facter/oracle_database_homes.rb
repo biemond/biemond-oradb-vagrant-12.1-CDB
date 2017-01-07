@@ -51,9 +51,8 @@ def get_opatch_patches(name)
 
   opatch_out.each_line.collect do |line|
     next unless line =~ /^\d+;/
-    Puppet.debug "111 #{line}"
     split_line = line.split(';')
-    { :patch_id => split_line[0].to_s, :patch_desc => split_line[1].chomp.to_s }
+    { 'patch_id' => split_line[0], 'patch_desc' => split_line[1].chomp }
   end.compact
 end
 

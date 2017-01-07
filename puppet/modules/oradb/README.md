@@ -682,14 +682,23 @@ or delete a database
       db_name                 => 'test',
       require                 => Oradb::Dbactions['stop testDb'],
     }
-
+    
+    # database instance with srvctl
+    oradb::dbactions{ 'start testDb':
+      oracle_home             => hiera('oracle_home_dir'),
+      user                    => hiera('oracle_os_user'),
+      group                   => hiera('oracle_os_group'),
+      action                  => 'start',
+      db_name                 => 'test',
+      require                 => Oradb::Dbactions['stop testDb'],
+    }
+    
     # grid or asm
     db_control{'instance control asm':
       provider                => 'srvctl',
       ensure                  => 'start',
       instance_name           => '+ASM',
       oracle_product_home_dir => hiera('oracle_home_dir'),
-      grid_product_home_dir   => hiera('grid_home_dir'),
       os_user                 => hiera('grid_os_user'),
       db_type                 => 'grid',
     }
